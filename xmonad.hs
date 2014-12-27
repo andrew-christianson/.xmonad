@@ -18,7 +18,7 @@ import XMonad.Layout.FixedColumn
 import XMonad.Layout.IM
 import XMonad.Layout.Reflect
 import XMonad.Layout.PerWorkspace
-import XMonad.Layout.ResizableTilen
+import XMonad.Layout.ResizableTile
 import XMonad.Layout.Dishes
 import XMonad.Layout.PerWorkspace
 import XMonad.Layout.ThreeColumns
@@ -181,7 +181,7 @@ myKeys =
 	, ((myMod .|. shiftMask, xK_Tab), bindOn [("chat", rotSlavesUp), ("", rotAllUp)])
 	, ((myMod, xK_d), sendMessage $ NextLayout)
 	, ((myMod, xK_space), sendMessage $ ToggleLayout)
-	, ((myMod, xK_p), spawn "password gui")
+	-- , ((myMod, xK_p), spawn "password gui")
 	]
 
 myManageHook = composeAll
