@@ -45,7 +45,7 @@ import XMonad.Util.EZConfig(additionalKeys)
 import System.IO
 
 myMod = mod4Mask -- windows key
-myTerminal = "urxvt"
+myTerminal = "xterm"
 
 myWorkSpaces = ["logs", "main", "web", "chat", "misc", "book"] ++ map show [7..16]
 
@@ -236,7 +236,7 @@ myConfig xmp = defaultConfig
 	} `additionalKeys` myKeys
 
 main = do
-  xmproc <- spawnPipe "xmobar /home/andrew/.xmonad/.xmobarrc"
+  xmproc <- spawnPipe "/home/andrew/.cabal/bin/xmobar /home/andrew/.xmonad/.xmobarrc"
   xmonad (myConfig xmproc)
 
 -- Avoid the master window, but otherwise manage new windows normally.
