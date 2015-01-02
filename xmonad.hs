@@ -45,7 +45,7 @@ import XMonad.Util.EZConfig(additionalKeys)
 import System.IO
 
 myMod = mod4Mask -- windows key
-myTerminal = "xterm"
+myTerminal = "urxvt"
 
 myWorkSpaces = ["logs", "main", "web", "chat", "misc", "book"] ++ map show [7..16]
 
@@ -155,7 +155,7 @@ myLayout = toggleLayouts Full perWS
 				-- Match procmeter
 				procmeter = ClassName "ProcMeter3"
 
-		-- For reading books, I typically want borders on 
+		-- For reading books, I typically want borders on
 		-- the margin of the screen.
 		myBook = ThreeColMid nmaster delta ratio
 			where
