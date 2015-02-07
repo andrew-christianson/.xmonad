@@ -46,7 +46,7 @@ import System.IO
 
 myMod = mod4Mask -- windows key
 myTerminal = "urxvt"
-
+myTerminalFloat = "urxvtf"
 myWorkSpaces = ["logs", "main", "web", "chat", "misc", "book"] ++ map show [7..16]
 
 myTheme = defaultTheme
@@ -170,6 +170,7 @@ myLayout = toggleLayouts Full perWS
 
 myKeys =
 	[ ((myMod, xK_x), spawn myTerminal)
+        , ((myMod .|. shiftMask, xK_x), spawn myTerminalFloat)
 	, ((myMod, xK_c), kill)
 	, ((myMod, xK_Left), prevWS)
 	, ((myMod, xK_Right), nextWS)
@@ -190,6 +191,9 @@ myManageHook = composeAll
 	, gimp "image-window" --> nofloat
 	, manageHook xfceConfig
 	, doF avoidMaster
+        , title =? "urxvtf"   --> doFloat
+        , resource =? "urxvtf"   --> doFloat
+        , className =? "urxvtf"   --> doFloat
 	, resource =? "floatterm" --> doFloat
 	, className =? "mplayer2" --> doFloat
 	-- workaround for <http://code.google.com/p/xmonad/issues/detail?id=228>
@@ -207,11 +211,11 @@ myManageHook = composeAll
 -- accident to non-floating.
 myMouseBindings (XConfig {XMonad.modMask = modMask}) = M.fromList
 	-- mod-button1, Move by dragging
-	[ ((modMask, button1), (\w -> focus w >> ifFloating w mouseMoveWindow))
+	[ ((modMask, button1), (\w -> focus w >> mouseMoveWindow w))
 	-- mod-button2, Raise the window to the top of the stack
 	--, ((modMask, button2), (\w -> focus w >> windows W.swapMaster))
 	-- mod-button3, Resize by dragging
-	, ((modMask, button3), (\w -> focus w >> ifFloating w mouseResizeWindow))
+	, ((modMask, button3), (\w -> focus w >> mouseResizeWindow w))
 	]
 	where
 		ifFloating w f = withWindowSet $ \ws ->
