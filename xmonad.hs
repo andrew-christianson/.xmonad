@@ -14,6 +14,7 @@ import XMonad.Actions.CycleWS
 import XMonad.Layout.SimpleDecoration
 import XMonad.Layout.NoFrillsDecoration
 import XMonad.Layout.Grid
+import XMonad.Layout.Gaps
 import XMonad.Layout.FixedColumn
 import XMonad.Layout.IM
 import XMonad.Layout.Reflect
@@ -25,6 +26,7 @@ import XMonad.Layout.ThreeColumns
 import XMonad.Layout.ToggleLayouts
 import XMonad.Layout.LimitWindows
 import XMonad.Layout.Spiral
+import XMonad.Layout.Spacing
 import XMonad.Actions.UpdateFocus
 import XMonad.Actions.CopyWindow
 import XMonad.Util.Themes
@@ -47,7 +49,6 @@ import System.IO
 myMod = mod4Mask -- windows key
 myTerminal = "urxvt"
 myTerminalFloat = "urxvtf"
-myWorkSpaces = ["logs", "main", "web", "chat", "misc", "book"] ++ map show [7..16]
 
 myTheme = defaultTheme
 	{ activeColor         = blue
@@ -72,13 +73,16 @@ myXPConfig = defaultXPConfig
 
 myLayout = toggleLayouts Full perWS
 	where
+		mySpacing = 10
 		-- Per workspace layout selection.
 		perWS =
-			onWorkspace "logs" (withTitles $ myLogs dishFirst) $
-			onWorkspace "web"  (noTitles   $ (mySplit ||| myWide)) $
-			onWorkspace "chat" (noTitles   $ myChat gridFirst) $
-			onWorkspace "book" (noTitles   $ myBook) $
-			                   (withTitles $ codeFirst)
+			onWorkspace "logs" (noTitles $ myLogs dishFirst) $
+			onWorkspace "web"  (noTitles $ (mySplit ||| myWide)) $
+			onWorkspace "chat" (noTitles $ myChat gridFirst) $
+			onWorkspace "terminals" (noTitles $ gridFirst) $
+			onWorkspace "book" (noTitles $ myBook) $
+			                   (noTitles $ codeFirst)
+			
 
 		-- Modifies a layout to be desktop friendly with title bars
 		-- and avoid the panel.
@@ -100,13 +104,13 @@ myLayout = toggleLayouts Full perWS
 		-- The master window is fixed at 80 columns wide, making
 		-- this good for coding. Limited to 4 visible windows at
 		-- a time to ensure all are a good size.
-		myCode = limitWindows 4 $
+		myCode = smartSpacing mySpacing $ limitWindows 4 $
 			FixedColumn 1 1 80 10
 
 		-- Stack with one large master window.
 		-- It's easy to overflow a stack to the point that windows
 		-- are too small, so only show first 5.
-		myDish = limitWindows 5 $ Dishes nmaster ratio
+		myDish = smartSpacing (mySpacing - 5) $ limitWindows 5 $ Dishes nmaster ratio
 			where
 				-- default number of windows in the master pane
 				nmaster = 1
@@ -114,7 +118,7 @@ myLayout = toggleLayouts Full perWS
 				ratio = 1/5
 
 		-- Wide layout with subwindows at the bottom.
-		myWide = Mirror $ Tall nmaster delta ratio
+		myWide = smartSpacing mySpacing $ Mirror $ Tall nmaster delta ratio
 			where
 				-- default number of windows in the master pane
 				nmaster = 1
@@ -124,7 +128,7 @@ myLayout = toggleLayouts Full perWS
 				ratio   = 80/100
 
 		-- Split screen, optimized for web browsing.
-		mySplit = Tall nmaster delta ratio
+		mySplit = smartSpacing mySpacing $ Tall nmaster delta ratio
 			where
 				-- default number of windows in the master pane
 				nmaster = 1
@@ -134,13 +138,13 @@ myLayout = toggleLayouts Full perWS
 				ratio   = 60/100
 
 		-- Standard grid.
-		myGrid = Grid
+		myGrid = smartSpacing mySpacing $ gaps [(U,75), (R,100),(D,100),(L,100)] $ Grid
 
 		-- Determined experimentally
-		mySpiral = spiral (6/7)
+		mySpiral = smartSpacing mySpacing $ spiral (6/7)
 
 		-- The chat workspace has a roster on the right.
-		myChat base = mirror base $ withIM size roster
+		myChat base = smartSpacing mySpacing $ mirror base $ withIM size roster
 			where
 				-- Ratio of screen roster will occupy
 				size = 1%5
@@ -148,7 +152,7 @@ myLayout = toggleLayouts Full perWS
 				roster = Title "Buddy List"
 
 		-- The logs workspace has space for procmeter.
-		myLogs base = mirror base $ withIM procmeterSize procmeter
+		myLogs base = smartSpacing mySpacing $ mirror base $ withIM procmeterSize procmeter
 			where
 				-- Ratio of screen procmeter will occupy
 				procmeterSize = 1%7
@@ -157,7 +161,7 @@ myLayout = toggleLayouts Full perWS
 
 		-- For reading books, I typically want borders on
 		-- the margin of the screen.
-		myBook = ThreeColMid nmaster delta ratio
+		myBook = smartSpacing mySpacing $ ThreeColMid nmaster delta ratio
 			where
 				-- default number of windows in the master pane
 				nmaster = 1
