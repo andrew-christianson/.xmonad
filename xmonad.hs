@@ -49,6 +49,8 @@ import System.IO
 myMod = mod4Mask -- windows key
 myTerminal = "urxvt"
 myTerminalFloat = "urxvtf"
+myWorkSpaces = ["logs", "main", "web", "chat", "misc", "book", "terminals"] ++ map show [8..16]
+
 
 myTheme = defaultTheme
 	{ activeColor         = blue
