@@ -83,7 +83,7 @@ myLayout = toggleLayouts Full perWS
 			onWorkspace "chat" (noTitles $ myChat gridFirst) $
 			onWorkspace "terminals" (withTitles $ gridFirst) $
 			onWorkspace "book" (noTitles $ myBook) $
-			                   (codeFirst)
+			                   (noTitles $ codeFirst)
 
 
 		-- Modifies a layout to be desktop friendly with title bars
