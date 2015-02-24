@@ -81,10 +81,10 @@ myLayout = toggleLayouts Full perWS
 			onWorkspace "logs" (noTitles $ myLogs dishFirst) $
 			onWorkspace "web"  (noTitles $ (mySplit ||| myWide)) $
 			onWorkspace "chat" (noTitles $ myChat gridFirst) $
-			onWorkspace "terminals" (noTitles $ gridFirst) $
+			onWorkspace "terminals" (withTitles $ gridFirst) $
 			onWorkspace "book" (noTitles $ myBook) $
-			                   (noTitles $ codeFirst)
-			
+			                   (codeFirst)
+
 
 		-- Modifies a layout to be desktop friendly with title bars
 		-- and avoid the panel.
