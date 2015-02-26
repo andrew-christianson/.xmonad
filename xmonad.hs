@@ -23,6 +23,7 @@ import XMonad.Layout.ResizableTile
 import XMonad.Layout.Dishes
 import XMonad.Layout.PerWorkspace
 import XMonad.Layout.ThreeColumns
+import XMonad.Layout.MultiColumns
 import XMonad.Layout.ToggleLayouts
 import XMonad.Layout.LimitWindows
 import XMonad.Layout.Spiral
@@ -100,7 +101,7 @@ myLayout = toggleLayouts Full perWS
 		-- point.
 		codeFirst = myCode ||| myWide ||| mySpiral ||| myGrid ||| myDish
 		dishFirst = myDish ||| myCode ||| myWide ||| mySpiral ||| myGrid
-		gridFirst = myGrid ||| myDish ||| myCode ||| myWide ||| mySpiral
+		gridFirst = myGrid ||| myColumns ||| myColumnsCentered ||| myDish ||| myCode ||| myWide ||| mySpiral
 
 		-- This is a tall-like layout.
 		-- The master window is fixed at 80 columns wide, making
@@ -171,6 +172,8 @@ myLayout = toggleLayouts Full perWS
 				delta   = 3/100
 				-- proportion of screen occupied by master pane
 				ratio   = 2/3
+                myColumns = smartSpacing mySpacing $ multiCol [1] 4 0.03 0.5
+		myColumnsCentered = smartSpacing mySpacing $ gaps [(U,75), (R,100),(D,100),(L,100)] $ multiCol [1] 4 0.03 0.5
 		-- Applies a layout mirrored.
 		mirror base a = reflectHoriz $ a $ reflectHoriz base
 
