@@ -246,7 +246,7 @@ myConfig xmp = defaultConfig
 	} `additionalKeys` myKeys
 
 main = do
-  xmproc <- spawnPipe "/home/andrew/.cabal/bin/xmobar /home/andrew/.xmonad/.xmobarrc"
+  xmproc <- spawnPipe "xmobar /home/andrew/.xmonad/.xmobarrc"
   xmonad (myConfig xmproc)
 
 -- Avoid the master window, but otherwise manage new windows normally.
