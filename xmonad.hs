@@ -48,8 +48,8 @@ import XMonad.Util.EZConfig(additionalKeys)
 import System.IO
 
 myMod = mod4Mask -- windows key
-myTerminal = "urxvt"
-myTerminalFloat = "urxvtf"
+myTerminal = "st"
+myTerminalFloat = "st"
 myWorkSpaces = ["logs", "main", "web", "chat", "misc", "book", "terminals"] ++ map show [8..16]
 
 
